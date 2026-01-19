@@ -1,0 +1,1855 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>冰點空調尾牙：推瓶子終極規劃 (寬版)</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Microsoft JhengHei", "PingFang TC", "Helvetica Neue", Arial, sans-serif;
+            background: linear-gradient(135deg, #f4f6f9 0%, #e9ecef 100%);
+            margin: 0;
+            padding: 15px;
+            color: #333;
+            min-height: 100vh;
+            font-size: 16px;
+        }
+
+        .container {
+            max-width: 100%;
+            width: 100%;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        h2 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 25px;
+            font-size: 36px;
+        }
+
+
+        /* 儀表板區域 */
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 25px;
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid #e9ecef;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .card h3 {
+            margin: 0 0 12px 0;
+            font-size: 22px;
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 6px;
+            display: inline-block;
+        }
+
+        .card ul {
+            padding-left: 25px;
+            margin: 0;
+            font-size: 17px;
+            color: #555;
+        }
+
+        .card li {
+            margin-bottom: 8px;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 4px;
+            color: white;
+            font-size: 15px;
+            font-weight: bold;
+        }
+
+        /* 舞台畫布 */
+        #stage {
+            width: 100%;
+            height: 950px;
+            border: 2px solid #cbd5e0;
+            position: relative;
+            background: #ffffff;
+            overflow: hidden;
+            border-radius: 12px;
+        }
+
+        /* --- 尺寸標示樣式 --- */
+        .dim-marker {
+            position: absolute;
+            z-index: 5;
+            pointer-events: none;
+        }
+
+        .dim-line-h {
+            height: 1px;
+            background: #7f8c8d;
+            border-left: 2px solid #2c3e50;
+            border-right: 2px solid #2c3e50;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .dim-line-v {
+            width: 1px;
+            background: #7f8c8d;
+            border-top: 2px solid #2c3e50;
+            border-bottom: 2px solid #2c3e50;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .dim-label {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 3px 10px;
+            border-radius: 4px;
+            font-size: 14px;
+            color: #2c3e50;
+            border: 1px solid #bdc3c7;
+            white-space: nowrap;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            font-weight: bold;
+        }
+
+        /* --- 區域 1: 領獎窗口 --- */
+        .window-zone {
+            display: flex;
+            justify-content: space-around;
+            padding-top: 40px;
+            height: 100px;
+            background: rgba(240, 240, 240, 0.3);
+            border-bottom: 1px dashed #ccc;
+        }
+
+        .window-box {
+            width: 260px;
+            /* 加寬窗口 */
+            height: 85px;
+            border-radius: 8px;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 18px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: relative;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .window-box:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .win-a {
+            background: #3498db;
+            border-bottom: 4px solid #2980b9;
+        }
+
+        .win-b {
+            background: #2ecc71;
+            border-bottom: 4px solid #27ae60;
+        }
+
+        .win-c {
+            background: #e67e22;
+            border-bottom: 4px solid #d35400;
+        }
+
+        .staff-win {
+            width: 28px;
+            height: 28px;
+            background: white;
+            color: #333;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 14px;
+            font-weight: bold;
+            position: absolute;
+            bottom: -14px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        /* --- 機動組位置 --- */
+        .floater {
+            position: absolute;
+            top: 15px;
+            left: 70%;
+            transform: translateX(-50%);
+            width: 36px;
+            height: 36px;
+            background: #607d8b;
+            border-radius: 50%;
+            color: white;
+            font-size: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 2px solid white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            z-index: 20;
+        }
+
+        .floater::after {
+            content: "機動組";
+            position: absolute;
+            top: -18px;
+            color: #607d8b;
+            font-size: 14px;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        /* --- 地面引導箭頭 --- */
+        .arrows {
+            display: flex;
+            justify-content: space-around;
+            position: absolute;
+            top: 140px;
+            width: 100%;
+            opacity: 0.15;
+        }
+
+        .arrow-icon {
+            font-size: 50px;
+            font-weight: bold;
+        }
+
+        /* --- 區域 2: 裁判區 --- */
+        .referee {
+            position: absolute;
+            top: 180px;
+            width: 38px;
+            height: 38px;
+            background: #e74c3c;
+            border-radius: 50%;
+            color: white;
+            font-size: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 2px solid white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            z-index: 20;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .referee::after {
+            position: absolute;
+            top: -20px;
+            color: #e74c3c;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .ref-left::after {
+            content: "裁判1";
+        }
+
+        .ref-right::after {
+            content: "裁判2";
+        }
+
+        .referee.moving {
+            z-index: 55;
+            box-shadow: 0 4px 10px rgba(231, 76, 60, 0.5);
+            animation: refereePulse 1s infinite;
+        }
+
+        @keyframes refereePulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.1);
+            }
+        }
+
+        .ref-left {
+            left: 25%;
+        }
+
+        .ref-right {
+            right: 22%;
+        }
+
+        /* --- 區域 3: 賽道桌子 --- */
+        .table-container {
+            position: absolute;
+            top: 220px;
+            width: 100%;
+            display: flex;
+            justify-content: space-around;
+            padding: 0 20px;
+        }
+
+        .game-table {
+            width: 55px;
+            height: 180px;
+            border: 2px solid #555;
+            border-radius: 4px;
+            position: relative;
+            background: white;
+            box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+        }
+
+        .game-table:hover {
+            transform: scale(1.05);
+        }
+
+        /* 獎金區域漸層：紅(上) 黃(中) 綠(下) */
+        .zone-500 {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            height: 33%;
+            background: #ffcdd2;
+            border-bottom: 1px dashed #e57373;
+        }
+
+        .zone-300 {
+            position: absolute;
+            top: 33%;
+            width: 100%;
+            height: 33%;
+            background: #fff9c4;
+            border-bottom: 1px dashed #fbc02d;
+        }
+
+        .zone-100 {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 34%;
+            background: #dcedc8;
+        }
+
+        .zone-label {
+            width: 100%;
+            text-align: center;
+            font-size: 13px;
+            font-weight: bold;
+            position: absolute;
+            color: #333;
+        }
+
+        .lbl-500 {
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            color: #c62828;
+        }
+
+        .lbl-300 {
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            color: #f57f17;
+        }
+
+        .lbl-100 {
+            top: 60%;
+            left: 0;
+            transform: translateY(-50%);
+            color: #33691e;
+        }
+
+        .table-id {
+            position: absolute;
+            bottom: -28px;
+            width: 100%;
+            text-align: center;
+            background: #333;
+            color: white;
+            font-size: 13px;
+            padding: 3px 0;
+            border-radius: 4px;
+        }
+
+        /* --- 區域 4: 黃色起點線 --- */
+        .start-line {
+            position: absolute;
+            top: 480px;
+            width: 90%;
+            left: 5%;
+            height: 8px;
+            background: #f1c40f;
+            border-top: 2px dashed #f39c12;
+            border-bottom: 2px dashed #f39c12;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 30;
+        }
+
+        .start-badge {
+            background: white;
+            color: #f39c12;
+            font-weight: bold;
+            font-size: 15px;
+            padding: 5px 15px;
+            border-radius: 12px;
+            border: 1px solid #f1c40f;
+            margin-top: -28px;
+        }
+
+        /* --- 區域 5: 排隊區 --- */
+        .queue-area {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 320px;
+            background: #fafafa;
+            border-top: 1px solid #eee;
+            overflow: visible;
+        }
+
+        /* S型路徑 - 完整繪製 */
+        .path-s {
+            position: absolute;
+            border: 50px solid #d0d0d0;
+            border-radius: 50px;
+            opacity: 0.7;
+            pointer-events: none;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+            background: rgba(240, 240, 240, 0.3);
+        }
+
+        /* S型路徑 - 重新設計，真正的S型 */
+        /* 第一段：從右下進入，向上移動 */
+        .p1 {
+            bottom: 40px;
+            right: 12%;
+            width: 0;
+            height: 100px;
+            border-left: 50px solid #d0d0d0;
+            border-right: 50px solid #d0d0d0;
+            border-top: none;
+            border-bottom: none;
+        }
+
+        /* 第二段：向左轉（橫向，S的上半部分） */
+        .p2 {
+            bottom: 140px;
+            left: 12%;
+            width: 76%;
+            height: 0;
+            border-top: 50px solid #d0d0d0;
+            border-bottom: 50px solid #d0d0d0;
+            border-left: none;
+            border-right: none;
+        }
+
+        /* 第三段：向下移動（S的中間連接） */
+        .p3 {
+            bottom: 90px;
+            left: 12%;
+            width: 0;
+            height: 50px;
+            border-left: 50px solid #d0d0d0;
+            border-right: 50px solid #d0d0d0;
+            border-top: none;
+            border-bottom: none;
+        }
+
+        /* 第四段：向右轉（橫向，S的下半部分） */
+        .p4 {
+            bottom: 40px;
+            right: 12%;
+            width: 76%;
+            height: 0;
+            border-top: 50px solid #d0d0d0;
+            border-bottom: 50px solid #d0d0d0;
+            border-left: none;
+            border-right: none;
+        }
+
+        /* 第五段：向上到引導員處 */
+        .p5 {
+            bottom: 190px;
+            left: 50%;
+            width: 0;
+            height: 100px;
+            border-left: 50px solid #d0d0d0;
+            border-right: 50px solid #d0d0d0;
+            border-top: none;
+            border-bottom: none;
+            transform: translateX(-50%);
+        }
+
+        /* 連接線段 - 轉彎處（圓角連接） */
+        .path-connector {
+            position: absolute;
+            background: #d0d0d0;
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
+        .connector1 {
+            bottom: 140px;
+            right: 12%;
+            width: 100px;
+            height: 100px;
+            border-radius: 0 0 0 100px;
+        }
+
+        .connector2 {
+            bottom: 140px;
+            left: 12%;
+            width: 100px;
+            height: 100px;
+            border-radius: 0 0 100px 0;
+        }
+
+        .connector3 {
+            bottom: 90px;
+            left: 12%;
+            width: 100px;
+            height: 100px;
+            border-radius: 0 0 100px 0;
+        }
+
+        .connector4 {
+            bottom: 40px;
+            right: 12%;
+            width: 100px;
+            height: 100px;
+            border-radius: 0 0 0 100px;
+        }
+
+        .connector5 {
+            bottom: 190px;
+            right: 12%;
+            width: 100px;
+            height: 100px;
+            border-radius: 0 0 0 100px;
+        }
+
+        .guide {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(46, 204, 113, 0.9);
+            color: white;
+            padding: 10px 18px;
+            border-radius: 6px;
+            font-size: 18px;
+            font-weight: bold;
+            border: 2px solid #27ae60;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            z-index: 20;
+        }
+
+        .guide::before {
+            content: "入口";
+            position: absolute;
+            top: -22px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #27ae60;
+            color: white;
+            padding: 3px 10px;
+            border-radius: 4px;
+            font-size: 13px;
+            white-space: nowrap;
+        }
+
+        /* S型入口標記 */
+        .s-entrance {
+            position: absolute;
+            bottom: 15px;
+            right: 88%;
+            background: rgba(46, 204, 113, 0.9);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            border: 2px solid #27ae60;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            z-index: 25;
+            transform: translateX(50%);
+        }
+
+        .s-entrance::after {
+            content: "入口";
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #27ae60;
+            color: white;
+            padding: 3px 10px;
+            border-radius: 4px;
+            font-size: 13px;
+            white-space: nowrap;
+        }
+
+        /* --- 員工圓點 --- */
+        .dot {
+            width: 20px;
+            height: 20px;
+            background: #34495e;
+            border-radius: 50%;
+            position: absolute;
+            z-index: 50;
+            color: white;
+            font-size: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), left 0.3s cubic-bezier(0.4, 0, 0.2, 1), top 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: bold;
+        }
+
+        .dot.moving {
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.1);
+            }
+        }
+
+        /* 瓶子元素 */
+        .bottle {
+            width: 12px;
+            height: 25px;
+            background: linear-gradient(180deg, #4fc3f7 0%, #29b6f6 50%, #0288d1 100%);
+            border-radius: 3px 3px 8px 8px;
+            position: absolute;
+            z-index: 45;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .bottle.rolling {
+            animation: roll 0.5s linear infinite;
+        }
+
+        @keyframes roll {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* 標籤元素 */
+        .sticker {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 12px;
+            font-weight: bold;
+            color: white;
+            z-index: 60;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+            animation: stickerAppear 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .sticker.red {
+            background: #e74c3c;
+            border: 2px solid #c0392b;
+        }
+
+        .sticker.yellow {
+            background: #f39c12;
+            border: 2px solid #e67e22;
+        }
+
+        .sticker.green {
+            background: #27ae60;
+            border: 2px solid #229954;
+        }
+
+        @keyframes stickerAppear {
+            0% {
+                transform: scale(0) rotate(-180deg);
+                opacity: 0;
+            }
+
+            100% {
+                transform: scale(1) rotate(0deg);
+                opacity: 1;
+            }
+        }
+
+        /* 緩衝區標示 - 桌子後方，窗口之前 */
+        .buffer-zone {
+            position: absolute;
+            top: 150px;
+            left: 0;
+            right: 0;
+            height: 40px;
+            background: repeating-linear-gradient(45deg,
+                    rgba(255, 0, 0, 0.15),
+                    rgba(255, 0, 0, 0.15) 10px,
+                    rgba(255, 255, 255, 0.15) 10px,
+                    rgba(255, 255, 255, 0.15) 20px);
+            border-top: 2px dashed #e74c3c;
+            border-bottom: 2px dashed #e74c3c;
+            z-index: 15;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .buffer-label {
+            background: rgba(231, 76, 60, 0.9);
+            color: white;
+            padding: 6px 18px;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        /* 控制按鈕 */
+        .controls {
+            text-align: center;
+            margin-top: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            align-items: center;
+        }
+
+        button {
+            padding: 14px 30px;
+            font-size: 19px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            color: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.2s;
+            font-weight: bold;
+            min-width: 140px;
+        }
+
+        button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        button:active:not(:disabled) {
+            transform: translateY(0);
+        }
+
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .btn-play {
+            background: linear-gradient(135deg, #2980b9 0%, #3498db 100%);
+        }
+
+        .btn-pause {
+            background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+        }
+
+        .btn-reset {
+            background: linear-gradient(135deg, #c0392b 0%, #e74c3c 100%);
+        }
+
+        .btn-speed {
+            background: linear-gradient(135deg, #8e44ad 0%, #9b59b6 100%);
+        }
+
+        /* 速度選擇器 */
+        .speed-selector {
+            display: flex;
+            gap: 5px;
+            align-items: center;
+            background: #f8f9fa;
+            padding: 8px 15px;
+            border-radius: 8px;
+        }
+
+        .speed-selector label {
+            font-size: 16px;
+            color: #555;
+            margin-right: 8px;
+        }
+
+        .speed-selector select {
+            padding: 8px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            background: white;
+            cursor: pointer;
+        }
+
+        /* 進度條 */
+        .progress-container {
+            margin-top: 15px;
+            width: 100%;
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #3498db 0%, #2ecc71 100%);
+            width: 0%;
+            transition: width 0.3s ease;
+            border-radius: 4px;
+        }
+
+        /* 狀態指示器 */
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+            animation: blink 2s infinite;
+        }
+
+        .status-indicator.active {
+            background: #2ecc71;
+        }
+
+        .status-indicator.paused {
+            background: #f39c12;
+            animation: none;
+        }
+
+        .status-indicator.stopped {
+            background: #e74c3c;
+            animation: none;
+        }
+
+        @keyframes blink {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        /* 標籤頁樣式 */
+        .tabs {
+            display: flex;
+            border-bottom: 3px solid #e9ecef;
+            margin-bottom: 25px;
+            background: #f8f9fa;
+            border-radius: 10px 10px 0 0;
+            padding: 0;
+        }
+
+        .tab-button {
+            flex: 1;
+            padding: 18px 30px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #666;
+            background: transparent;
+            border: none;
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 10px 10px 0 0;
+        }
+
+        .tab-button:hover {
+            background: rgba(52, 152, 219, 0.1);
+            color: #3498db;
+        }
+
+        .tab-button.active {
+            color: #2c3e50;
+            background: white;
+            border-bottom-color: #3498db;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* 橫式規則說明 */
+        .rules-horizontal {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px 30px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .rules-horizontal h3 {
+            margin: 0 0 15px 0;
+            font-size: 24px;
+            color: white;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+            padding-bottom: 10px;
+            display: inline-block;
+        }
+
+        .rules-horizontal .rules-list {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .rules-horizontal .rules-list li {
+            flex: 1;
+            min-width: 250px;
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 8px;
+            font-size: 18px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        /* 響應式設計 */
+        @media (max-width: 768px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-panel {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .controls {
+                flex-direction: column;
+            }
+
+            button {
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .tab-button {
+                padding: 14px 20px;
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h2>冰點空調尾牙：推瓶子現金挑戰</h2>
+
+        <!-- 標籤頁按鈕 -->
+        <div class="tabs">
+            <button class="tab-button active" onclick="switchTab('rules')">📋 規則說明</button>
+            <button class="tab-button" onclick="switchTab('simulation')">🎮 預演與規劃</button>
+        </div>
+
+        <!-- 標籤頁內容：規則說明 -->
+        <div id="tab-rules" class="tab-content active">
+            <div class="dashboard">
+                <div class="card">
+                    <h3>📐 空間規劃</h3>
+                    <ul>
+                        <li><strong>總寬度：</strong>約 12-14 公尺</li>
+                        <li><strong>總深度：</strong>約 8-10 公尺</li>
+                        <li><strong>桌距：</strong>每桌間隔約 0.8-1 公尺</li>
+                        <li><strong>領獎緩衝：</strong>桌前留 3 公尺防塞車</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>🛠️ 設備需求</h3>
+                    <ul>
+                        <li><strong>長桌：</strong>13張 (8賽道+3窗口+2練習賽道)</li>
+                        <li><strong>椅子：</strong>3張 (發放員用)</li>
+                        <li><strong>瓶裝水：</strong>220瓶 (常溫!)</li>
+                        <li><strong>標籤貼紙：</strong>紅/黃/綠各70張</li>
+                        <li><strong>其他：</strong>寬膠帶(4色)、大聲公</li>
+                        <li><strong>緩衝區：</strong>桌子兩側各留1.5公尺，前端留2公尺防瓶子飛出</li>
+                        <li><strong>防護措施：</strong>桌子前端加裝軟墊或擋板，防止瓶子滾出場外</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>👥 人員配置 (7人)</h3>
+                    <ul>
+                        <li><span class="tag" style="background:#e74c3c">裁判 x2</span> 裁判1負責桌5-8，裁判2負責桌1-4</li>
+                        <li><span class="tag" style="background:#3498db">窗口 x3</span> A/B/C 各一人</li>
+                        <li><span class="tag" style="background:#607d8b">機動 x1</span> 補紅包/支援</li>
+                        <li><span class="tag" style="background:#9b59b6">引導 x1</span> 起點控場</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>💡 優化重點</h3>
+                    <ul>
+                        <li><strong><span style="color:#e74c3c">■</span> 500元：</strong>紅色區 (頂端)</li>
+                        <li><strong><span style="color:#ffd590">■</span> 300元：</strong>黃色區 (中段)</li>
+                        <li><strong><span style="color:#27ae60">■</span> 200元：</strong>綠色區 (底部)</li>
+                        <li><strong>流程：</strong>8人齊開場 → 隨到隨補</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 橫式規則說明 -->
+            <div class="rules-horizontal">
+                <h3>📋 規則說明</h3>
+                <ul class="rules-list">
+                    <li><strong>推瓶子，推到三個區域就得200、300、500元</strong></li>
+                    <li><strong>如果掉到桌子以外，就是200元</strong></li>
+                    <li><strong>每個人只有一次機會</strong></li>
+                </ul>
+            </div>
+
+            <div class="dashboard" style="margin-top: 20px;">
+                <div class="card" style="grid-column: 1 / -1;">
+                    <h3>⚠️ 重要注意事項</h3>
+                    <ul style="columns: 2; column-gap: 30px;">
+                        <li><strong>安全第一：</strong>桌子前端必須設置緩衝區，防止瓶子滾出場外造成危險</li>
+                        <li><strong>標籤流程：</strong>裁判需立即判斷落點區域，貼上對應顏色標籤（紅/黃/綠）</li>
+                        <li><strong>標籤位置：</strong>貼在瓶子標籤處，不可遮擋瓶身，方便窗口人員識別</li>
+                        <li><strong>瓶子處理：</strong>若瓶子滾出場外，由機動組立即回收，以200元計算</li>
+                        <li><strong>緩衝區規劃：</strong>桌子兩側各留1.5公尺，前端留2公尺安全距離</li>
+                        <li><strong>防護措施：</strong>建議在桌子前端加裝軟墊擋板或圍欄，高度至少30公分</li>
+                        <li><strong>人員站位：</strong>裁判站在桌子側邊，避免阻擋推瓶路徑</li>
+                        <li><strong>標籤準備：</strong>每桌準備紅/黃/綠標籤各10張，貼在易取位置</li>
+                        <li><strong>窗口識別：</strong>窗口人員需快速識別標籤顏色，發放對應獎金</li>
+                        <li><strong>流程控制：</strong>引導員需控制人流，確保S型路徑不堵塞</li>
+                        <li><strong>應急處理：</strong>若發生瓶子飛出，立即暫停該桌，處理完畢後繼續</li>
+                        <li><strong>場地檢查：</strong>活動前檢查桌子穩定性，確保無滑動風險</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- 標籤頁內容：預演與重置 -->
+        <div id="tab-simulation" class="tab-content">
+            <div id="stage">
+
+                <div class="dim-marker dim-line-h" style="top: 10px; left: 2%; width: 96%;">
+                    <div class="dim-label">總寬度: 12-14 公尺</div>
+                </div>
+
+                <div class="dim-marker dim-line-v" style="top: 20px; left: 10px; height: 760px;">
+                    <div class="dim-label" style="transform: rotate(-90deg);">總深度: 8-10 公尺</div>
+                </div>
+
+                <div class="dim-marker dim-line-v" style="top: 40px; left: 18%; height: 180px;">
+                    <div class="dim-label" style="margin-left: 60px;">領獎緩衝區: 3 公尺</div>
+                </div>
+
+                <div class="dim-marker dim-line-v" style="top: 220px; right: 8px; height: 180px;">
+                    <div class="dim-label" style="margin-right: 60px; text-align: center;">
+                        賽道長度:<br>1.8 公尺
+                    </div>
+                </div>
+
+                <div class="dim-marker dim-line-h" style="top: 360px; left:23.2%; width: 5%;">
+                    <div class="dim-label" style="margin-top: 25px;">走道: 0.8-1 公尺</div>
+                </div>
+
+                <div class="dim-marker dim-line-v" style="bottom: 10px; right: 35px; height: 320px;">
+                    <div class="dim-label" style="margin-right: 60px;">排隊區深度: ~3 公尺</div>
+                </div>
+
+                <div class="window-zone">
+                    <div class="window-box win-c" id="win-c">窗口 C (桌6-8)<div class="staff-win">員</div>
+                    </div>
+                    <div class="window-box win-b" id="win-b">窗口 B (桌3-5)<div class="staff-win">員</div>
+                    </div>
+                    <div class="window-box win-a" id="win-a">窗口 A (桌1-2)<div class="staff-win">員</div>
+                    </div>
+                </div>
+
+                <div class="floater">機</div>
+                <div class="arrows">
+                    <div class="arrow-icon">⬆</div>
+                    <div class="arrow-icon">⬆</div>
+                    <div class="arrow-icon">⬆</div>
+                </div>
+                <div class="referee ref-left">1</div>
+                <div class="referee ref-right">2</div>
+
+                <div class="buffer-zone">
+                    <div class="buffer-label">⚠️ 緩衝區：防止瓶子滾出場外</div>
+                </div>
+
+                <div class="table-container" id="tables"></div>
+
+                <div class="start-line">
+                    <div class="start-badge">⛔ 黃色等候線 (桌子空了再跨越)</div>
+                </div>
+
+                <div class="queue-area">
+                    <div class="s-entrance">S型入口</div>
+                    <div class="path-s p1"></div>
+                    <div class="path-connector connector1"></div>
+                    <div class="path-s p2"></div>
+                    <div class="path-connector connector2"></div>
+                    <div class="path-s p3"></div>
+                    <div class="path-connector connector3"></div>
+                    <div class="path-s p4"></div>
+                    <div class="path-connector connector4"></div>
+                    <div class="path-connector connector5"></div>
+                    <div class="path-s p5"></div>
+                    <div class="guide">引導員</div>
+                </div>
+            </div>
+
+            <div class="progress-container">
+                <div class="progress-bar" id="progress-bar"></div>
+            </div>
+
+            <div class="controls">
+                <button class="btn-play" id="btn-play" onclick="toggleSim()">
+                    ▶ 開始預演
+                </button>
+                <button class="btn-pause" id="btn-pause" onclick="pauseSim()" style="display:none;">
+                    ⏸ 暫停
+                </button>
+                <button class="btn-reset" onclick="resetSim()">
+                    ↺ 重置
+                </button>
+                <div class="speed-selector">
+                    <label>速度：</label>
+                    <select id="speed-select" onchange="changeSpeed()">
+                        <option value="0.5">慢速 (0.5x)</option>
+                        <option value="1" selected>正常 (1x)</option>
+                        <option value="1.5">快速 (1.5x)</option>
+                        <option value="2">極速 (2x)</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ========== 標籤頁切換功能 ==========
+        function switchTab(tabName) {
+            // 隱藏所有標籤頁內容
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // 移除所有按鈕的active狀態
+            document.querySelectorAll('.tab-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // 顯示選中的標籤頁
+            document.getElementById('tab-' + tabName).classList.add('active');
+
+            // 激活對應的按鈕
+            document.querySelectorAll('.tab-button').forEach(btn => {
+                if (btn.getAttribute('onclick').includes(tabName)) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+        // ========== 全局變量 ==========
+        const stage = document.getElementById('stage');
+        const tableContainer = document.getElementById('tables');
+        let isRunning = false;
+        let isPaused = false;
+        let pId = 1;
+        let speedMultiplier = 1;
+        let stats = {
+            total: 0,
+            completed: 0,
+            active: 0,
+            waiting: 0
+        };
+        let activePersons = new Set();
+        let animationQueue = [];
+        // 裁判任務隊列：左裁判和右裁判分別有各自的隊列
+        let refereeQueue = { left: [], right: [] };
+        let refereeProcessing = { left: false, right: false }; // 裁判是否正在處理任務
+        // 跟踪每个桌子的状态：是否有瓶子在等待贴标签
+        let tableWaitingForSticker = new Set();
+        // 跟踪正在使用的桌子（有人在推瓶子）
+        let tableInUse = new Set();
+        // 引导员放行队列：等待进入的人数
+        let guideQueue = [];
+        let guideProcessing = false; // 引导员是否正在放行
+        let completedCount = 0; // 已完成的人数（被贴完标签并领奖）
+
+        // 桌子配置 (左 -> 右)
+        const tableConfig = [
+            { id: 8, win: 'win-c' }, { id: 7, win: 'win-c' }, { id: 6, win: 'win-c' },
+            { id: 5, win: 'win-b' }, { id: 4, win: 'win-b' }, { id: 3, win: 'win-b' },
+            { id: 2, win: 'win-a' }, { id: 1, win: 'win-a' }
+        ];
+
+        // ========== 初始化 ==========
+        function init() {
+            // 初始化桌子
+            tableConfig.forEach(t => {
+                const div = document.createElement('div');
+                div.className = 'game-table';
+                div.id = 'table-' + t.id;
+                div.innerHTML = `
+                    <div class="zone-500"><div class="zone-label lbl-500">500</div></div>
+                    <div class="zone-300"><div class="zone-label lbl-300">300</div></div>
+                    <div class="zone-100"><div class="zone-label lbl-100">200</div></div>
+                    <div class="table-id">桌${t.id}</div>
+                `;
+                tableContainer.appendChild(div);
+            });
+
+            updateStats();
+        }
+
+        // ========== 統計更新 ==========
+        function updateStats() {
+            // 更新進度條
+            const maxParticipants = 78; // 8開場 + 70流水
+            const progress = (stats.completed / maxParticipants) * 100;
+            document.getElementById('progress-bar').style.width = progress + '%';
+        }
+
+        // ========== 創建人員 ==========
+        function createPerson(label) {
+            const p = document.createElement('div');
+            p.className = 'dot';
+            p.innerText = label || pId++;
+            p.dataset.personId = p.id = 'person-' + Date.now() + '-' + Math.random();
+            return p;
+        }
+
+        // ========== 創建瓶子 ==========
+        function createBottle() {
+            const bottle = document.createElement('div');
+            bottle.className = 'bottle';
+            return bottle;
+        }
+
+        // ========== 檢查桌子是否完全空閒 ==========
+        function isTableAvailable(tableId) {
+            // 桌子完全空閒：既沒有瓶子在等待貼標籤，也沒有人在推瓶子
+            return !tableWaitingForSticker.has(tableId) && !tableInUse.has(tableId);
+        }
+
+        // ========== 嘗試鎖定桌子（原子操作）==========
+        function tryLockTable(tableId) {
+            // 如果桌子可用，立即鎖定並返回 true
+            if (isTableAvailable(tableId)) {
+                tableInUse.add(tableId);
+                return true;
+            }
+            return false;
+        }
+
+        // ========== 獲取所有空閒的桌子 ==========
+        function getAvailableTables() {
+            return tableConfig.filter(t => isTableAvailable(t.id));
+        }
+
+        // ========== 裁判處理隊列（按順序一個一個處理）==========
+        async function processRefereeQueue(side) {
+            // 如果裁判正在處理或隊列為空，則返回
+            if (refereeProcessing[side] || refereeQueue[side].length === 0) {
+                return;
+            }
+
+            refereeProcessing[side] = true;
+
+            while (refereeQueue[side].length > 0 && isRunning) {
+                const task = refereeQueue[side].shift();
+
+                // 獲取對應的裁判元素
+                const refereeEl = side === 'left'
+                    ? document.querySelector('.ref-left')
+                    : document.querySelector('.ref-right');
+
+                // 保存裁判初始位置
+                const isLeft = side === 'left';
+                const refStartLeft = isLeft ? '25%' : null;
+                const refStartRight = !isLeft ? '22%' : null;
+                const refStartTop = '180px';
+
+                // 裁判移動到瓶子位置（速度較慢）
+                refereeEl.classList.add('moving');
+                refereeEl.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+                refereeEl.style.left = task.stickerX;
+                refereeEl.style.right = 'auto';
+                refereeEl.style.top = task.stickerY;
+                refereeEl.style.transform = 'translate(-50%, -50%)';
+                await sleep(600 / speedMultiplier);
+
+                // 貼標籤動畫
+                const sticker = document.createElement('div');
+                sticker.className = `sticker ${task.stickerColor}`;
+                sticker.textContent = task.stickerText;
+                sticker.style.left = task.stickerX;
+                sticker.style.top = task.stickerY;
+                sticker.style.transform = 'translate(-50%, -50%)';
+                stage.appendChild(sticker);
+                await sleep(300 / speedMultiplier);
+
+                // 標籤顯示後，瓶子淡出
+                task.bottle.style.opacity = '0';
+                await sleep(300);
+                task.bottle.remove();
+
+                // 標籤保留一段時間後移除
+                setTimeout(() => {
+                    sticker.style.transition = 'opacity 0.3s';
+                    sticker.style.opacity = '0';
+                    setTimeout(() => sticker.remove(), 300);
+                }, 1000);
+
+                // 裁判回到原位（速度較慢）
+                refereeEl.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+                refereeEl.style.left = refStartLeft || '';
+                refereeEl.style.right = refStartRight || '';
+                refereeEl.style.top = refStartTop;
+                refereeEl.style.transform = '';
+                await sleep(600 / speedMultiplier);
+                refereeEl.classList.remove('moving');
+
+                // 標籤貼完，resolve Promise，允許領獎和放下一人
+                if (task.resolve) {
+                    task.resolve();
+                }
+                // 從等待列表中移除
+                tableWaitingForSticker.delete(task.tableId);
+                // 標記桌子為空閒（貼標籤完成，推瓶子流程結束）
+                tableInUse.delete(task.tableId);
+            }
+
+            refereeProcessing[side] = false;
+        }
+
+        // ========== 推瓶子動畫 ==========
+        async function pushBottle(tableEl, personEl, tableId) {
+            // 標記桌子為使用中
+            tableInUse.add(tableId);
+
+            const tRect = tableEl.getBoundingClientRect();
+            const sRect = stage.getBoundingClientRect();
+
+            // 創建瓶子
+            const bottle = createBottle();
+            stage.appendChild(bottle);
+
+            // 瓶子起始位置（桌子前端）
+            const startX = (tRect.left - sRect.left + tRect.width / 2) + 'px';
+            const startY = (tRect.top - sRect.top) + 'px';
+
+            bottle.style.left = startX;
+            bottle.style.top = startY;
+            bottle.style.transform = 'translate(-50%, 0)';
+
+            // 模擬推瓶子的滾動動畫
+            bottle.classList.add('rolling');
+
+            // 隨機決定落點區域（33%紅, 33%黃, 34%綠）
+            const random = Math.random();
+            let zone, finalY, stickerColor, stickerText;
+
+            if (random < 0.33) {
+                // 紅色區 (500元)
+                zone = '500';
+                finalY = (tRect.top - sRect.top + tRect.height * 0.15) + 'px';
+                stickerColor = 'red';
+                stickerText = '500';
+            } else if (random < 0.66) {
+                // 黃色區 (300元)
+                zone = '300';
+                finalY = (tRect.top - sRect.top + tRect.height * 0.5) + 'px';
+                stickerColor = 'yellow';
+                stickerText = '300';
+            } else {
+                // 綠色區 (200元)
+                zone = '200';
+                finalY = (tRect.top - sRect.top + tRect.height * 0.85) + 'px';
+                stickerColor = 'green';
+                stickerText = '200';
+            }
+
+            // 瓶子滾動動畫
+            await new Promise(resolve => {
+                bottle.style.transition = `top 0.8s cubic-bezier(0.4, 0, 0.2, 1)`;
+                bottle.style.top = finalY;
+                setTimeout(resolve, 800 / speedMultiplier);
+            });
+
+            // 停止滾動
+            bottle.classList.remove('rolling');
+            await sleep(100);
+
+            // 將貼標籤任務加入裁判隊列（不立即處理）
+            const stickerX = (tRect.left - sRect.left + tRect.width / 2) + 'px';
+            const stickerY = finalY;
+            // 裁判1負責桌5-8，裁判2負責桌1-4
+            const refereeSide = tableId <= 4 ? 'right' : 'left';
+
+            // 創建Promise，等待裁判貼完標籤
+            const stickerPromise = new Promise(resolve => {
+                // 將任務加入隊列
+                refereeQueue[refereeSide].push({
+                    bottle: bottle,
+                    stickerX: stickerX,
+                    stickerY: stickerY,
+                    stickerColor: stickerColor,
+                    stickerText: stickerText,
+                    tableId: tableId,
+                    resolve: resolve // 存儲resolve函數
+                });
+
+                // 標記該桌子正在等待貼標籤
+                tableWaitingForSticker.add(tableId);
+
+                // 觸發裁判處理隊列
+                processRefereeQueue(refereeSide);
+            });
+
+            // 返回Promise，等待裁判貼完標籤
+            return stickerPromise;
+        }
+
+        // ========== 動畫控制 ==========
+        function move(el, x, y, ms) {
+            return new Promise(resolve => {
+                if (isPaused) {
+                    // 如果暫停，等待恢復
+                    const checkPause = setInterval(() => {
+                        if (!isPaused) {
+                            clearInterval(checkPause);
+                            executeMove();
+                        }
+                    }, 100);
+                    return;
+                }
+
+                executeMove();
+
+                function executeMove() {
+                    el.classList.add('moving');
+                    el.style.left = x;
+                    el.style.top = y;
+
+                    setTimeout(() => {
+                        el.classList.remove('moving');
+                        resolve();
+                    }, ms / speedMultiplier);
+                }
+            });
+        }
+
+        function sleep(ms) {
+            return new Promise(resolve => {
+                if (isPaused) {
+                    const checkPause = setInterval(() => {
+                        if (!isPaused) {
+                            clearInterval(checkPause);
+                            setTimeout(resolve, ms / speedMultiplier);
+                        }
+                    }, 100);
+                    return;
+                }
+                setTimeout(resolve, ms / speedMultiplier);
+            });
+        }
+
+        // ========== 主要流程 ==========
+        async function startSim() {
+            if (isRunning) return;
+
+            isRunning = true;
+            isPaused = false;
+
+            document.getElementById('btn-play').style.display = 'none';
+            document.getElementById('btn-pause').style.display = 'inline-block';
+            document.getElementById('btn-play').disabled = true;
+            document.getElementById('btn-pause').disabled = false;
+
+            try {
+                // 1-8位一起從S型路徑進入並一起丟
+                const first8Promises = [];
+                for (let i = 0; i < 8; i++) {
+                    if (!isRunning) break;
+                    const data = tableConfig[i];
+                    // 立即開始，不等待，讓8人幾乎同時進入
+                    first8Promises.push(runFlowForTable(data, i));
+                    await sleep(50); // 稍微錯開時間，讓8人幾乎同時進入
+                }
+
+                // 等待1-8位都開始移動後，再開始後續人流
+                await sleep(500);
+
+                // 繼續流水補位 (模擬70人，增加人流)
+                // 其餘人員按照正常流程，不一起丟
+                for (let k = 8; k < 78; k++) {
+                    if (!isRunning) break;
+                    runFlow();
+                    // 控制進入速度，讓更多人同時在場上
+                    await sleep(k < 15 ? 400 : (500 + Math.random() * 300));
+                }
+
+                // 等待所有活動完成
+                while (activePersons.size > 0 && isRunning) {
+                    await sleep(500);
+                }
+
+            } catch (error) {
+                console.error('模擬過程出錯:', error);
+            } finally {
+                if (isRunning) {
+                }
+                resetButtons();
+            }
+        }
+
+        // ========== 1-8位指定桌子流程 ==========
+        async function runFlowForTable(tableData, index) {
+            if (!isRunning) return;
+
+            const p = createPerson((index + 1).toString());
+            stage.appendChild(p);
+            stats.total++;
+            stats.waiting++;
+            activePersons.add(p.id);
+            updateStats();
+
+            try {
+                // S型路徑移動到引導員處
+                await moveThroughSPath(p);
+
+                // 在引導員處排隊，等待指定桌子完全空閒並成功鎖定
+                while (isRunning) {
+                    if (tryLockTable(tableData.id)) {
+                        // 成功鎖定桌子，可以前往
+                        break;
+                    }
+                    // 鎖定失敗，等待後重試
+                    await sleep(100);
+                }
+
+                if (!isRunning) return;
+
+                stats.waiting--;
+                stats.active++;
+                updateStats();
+
+                // 直接到指定桌子
+                const tEl = document.getElementById('table-' + tableData.id);
+                const tRect = tEl.getBoundingClientRect();
+                const sRect = stage.getBoundingClientRect();
+                const tx = (tRect.left - sRect.left + 20) + 'px';
+                const ty = (tRect.top - sRect.top + 200) + 'px';
+
+                await move(p, tx, '500px', 400); // 過黃線
+                await move(p, tx, ty, 600); // 就位
+
+                // 推瓶子
+                await move(p, tx, (parseInt(ty) - 50) + 'px', 300);
+                await sleep(300);
+
+                // 推瓶子動畫（包含裁判貼標籤）
+                await pushBottle(tEl, p, tableData.id);
+                await sleep(400);
+
+                // 領獎
+                const winEl = document.getElementById(tableData.win);
+                const wRect = winEl.getBoundingClientRect();
+                const wx = (wRect.left - sRect.left + 80) + 'px';
+                const wy = (wRect.top - sRect.top + 80) + 'px';
+
+                await move(p, wx, wy, 1000);
+                await sleep(200);
+
+                p.style.opacity = 0;
+                stats.active--;
+                stats.completed++;
+                activePersons.delete(p.id);
+                completedCount++;
+                updateStats();
+
+                setTimeout(() => p.remove(), 500);
+            } catch (error) {
+                console.error('流程執行錯誤:', error);
+                stats.active--;
+                stats.waiting--;
+                activePersons.delete(p.id);
+                updateStats();
+                p.remove();
+            }
+        }
+
+        // ========== S型路徑移動函數 ==========
+        async function moveThroughSPath(p) {
+            // 0. 設定初始位置：右下角 (S型入口)
+            p.style.left = '12%';
+            p.style.top = '780px'; // 起點：最底層
+
+            // 1. 由右至左 (底層長廊)
+            // 從 88% 走到 12%
+            await move(p, '12%', '780px', 1200);
+            await sleep(100);
+
+            // 2. 往上 (換至中層)
+            // Y軸從 780px 向上到 680px
+            await move(p, '12%', '680px', 400);
+            await sleep(100);
+
+            // 3. 由左至右 (中層長廊)
+            // 從 12% 走到 88%
+            await move(p, '88%', '680px', 1200);
+            await sleep(100);
+
+            // 4. 往上 (換至上層)
+            // Y軸從 680px 向上到 580px
+            await move(p, '88%', '580px', 400);
+            await sleep(100);
+
+            // 5. 由右至左 (上層長廊)
+            // 從 88% 走到 12%
+            await move(p, '12%', '580px', 1200);
+            await sleep(100);
+
+            // 6. 往右一半 (回中)
+            // 從 12% 走到 50%
+            await move(p, '50%', '580px', 600);
+            await sleep(100);
+
+            // 7. 到引導員 (最後就位)
+            // Y軸從 580px 向上到 500px (引導員位置)
+            await move(p, '50%', '500px', 500);
+            await sleep(200);
+        }
+
+        async function runFlow() {
+            if (!isRunning) return;
+
+            const p = createPerson();
+            stage.appendChild(p);
+            stats.total++;
+            stats.waiting++;
+            activePersons.add(p.id);
+            updateStats();
+
+            try {
+                // S型路徑移動到引導員處
+                await moveThroughSPath(p);
+
+                // 在引導員處排隊，等待有桌子完全空閒並成功鎖定
+                let data = null;
+                while (isRunning) {
+                    let availableTables = getAvailableTables();
+                    if (availableTables.length > 0) {
+                        // 隨機選擇一個空閒桌子並嘗試鎖定
+                        const randomTable = availableTables[Math.floor(Math.random() * availableTables.length)];
+                        if (tryLockTable(randomTable.id)) {
+                            // 成功鎖定，可以使用這個桌子
+                            data = randomTable;
+                            break;
+                        }
+                    }
+                    // 沒有空閒桌子或鎖定失敗，等待後重試
+                    await sleep(100);
+                }
+
+                if (!isRunning || !data) return;
+
+                stats.waiting--;
+                stats.active++;
+                updateStats();
+
+                const tEl = document.getElementById('table-' + data.id);
+                const tRect = tEl.getBoundingClientRect();
+                const sRect = stage.getBoundingClientRect();
+                const tx = (tRect.left - sRect.left + 20) + 'px';
+                const ty = (tRect.top - sRect.top + 200) + 'px';
+
+                await move(p, tx, '500px', 400); // 過黃線
+                await move(p, tx, ty, 600); // 就位
+
+                // 推瓶子
+                await move(p, tx, (parseInt(ty) - 50) + 'px', 300);
+                await sleep(300);
+
+                // 推瓶子動畫（包含裁判貼標籤）
+                await pushBottle(tEl, p, data.id);
+                await sleep(400);
+
+                // 領獎
+                const winEl = document.getElementById(data.win);
+                const wRect = winEl.getBoundingClientRect();
+                const wx = (wRect.left - sRect.left + 80) + 'px';
+                const wy = (wRect.top - sRect.top + 80) + 'px';
+
+                await move(p, wx, wy, 1000);
+                await sleep(200);
+
+                p.style.opacity = 0;
+                stats.active--;
+                stats.completed++;
+                activePersons.delete(p.id);
+                completedCount++;
+                updateStats();
+
+                setTimeout(() => p.remove(), 500);
+            } catch (error) {
+                console.error('流程執行錯誤:', error);
+                stats.active--;
+                stats.waiting--;
+                activePersons.delete(p.id);
+                updateStats();
+                p.remove();
+            }
+        }
+
+        // ========== 控制函數 ==========
+        function toggleSim() {
+            if (isRunning && !isPaused) {
+                pauseSim();
+            } else if (isRunning && isPaused) {
+                resumeSim();
+            } else {
+                startSim();
+            }
+        }
+
+        function pauseSim() {
+            isPaused = true;
+            document.getElementById('btn-pause').style.display = 'none';
+            document.getElementById('btn-play').style.display = 'inline-block';
+            document.getElementById('btn-play').textContent = '▶ 繼續';
+        }
+
+        function resumeSim() {
+            isPaused = false;
+            document.getElementById('btn-play').style.display = 'none';
+            document.getElementById('btn-pause').style.display = 'inline-block';
+        }
+
+        function resetSim() {
+            isRunning = false;
+            isPaused = false;
+
+            // 清除所有人員、瓶子和標籤
+            document.querySelectorAll('.dot, .bottle, .sticker').forEach(el => el.remove());
+
+            // 重置統計
+            stats = { total: 0, completed: 0, active: 0, waiting: 0 };
+            activePersons.clear();
+            pId = 1;
+
+            // 清空裁判隊列
+            refereeQueue = { left: [], right: [] };
+            refereeProcessing = { left: false, right: false };
+            tableWaitingForSticker.clear();
+            tableInUse.clear();
+            completedCount = 0;
+            guideQueue = [];
+            guideProcessing = false;
+
+            // 重置裁判位置
+            const refLeft = document.querySelector('.ref-left');
+            const refRight = document.querySelector('.ref-right');
+            if (refLeft) {
+                refLeft.style.left = '25%';
+                refLeft.style.right = '';
+                refLeft.style.top = '180px';
+                refLeft.style.transform = '';
+                refLeft.classList.remove('moving');
+            }
+            if (refRight) {
+                refRight.style.left = '';
+                refRight.style.right = '22%';
+                refRight.style.top = '180px';
+                refRight.style.transform = '';
+                refRight.classList.remove('moving');
+            }
+
+            updateStats();
+            resetButtons();
+
+            // 重置進度條
+            document.getElementById('progress-bar').style.width = '0%';
+        }
+
+        function resetButtons() {
+            document.getElementById('btn-play').style.display = 'inline-block';
+            document.getElementById('btn-pause').style.display = 'none';
+            document.getElementById('btn-play').textContent = '▶ 開始預演';
+            document.getElementById('btn-play').disabled = false;
+            document.getElementById('btn-pause').disabled = false;
+        }
+
+        function changeSpeed() {
+            const select = document.getElementById('speed-select');
+            speedMultiplier = parseFloat(select.value);
+        }
+
+        // ========== 啟動 ==========
+        init();
+    </script>
+
+</body>
+
+</html>
